@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: spotify-player
+Version: 0.1
+Summary: A prettier desktop player for Spotify.
+Home-page: https://github.com/jacobmrivera/spotify-player
+Author: Jacob Rivera
+Author-email: jacobrivera@utexas.edu
+Requires-Python: >=3.7

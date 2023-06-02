@@ -3,8 +3,6 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import cred
 
-CLIENT_ID = '6760dbcaecf04bb19ffa478d589c555a'
-CLIENT_SECRET = '0937a80136e84f7b96fac51d54593c91'
 
 scope = "user-read-recently-played"
 
@@ -21,6 +19,7 @@ import spotipy
 import webbrowser
 import spotipy.util as util
 from json.decoder import JSONDecodeError
+import requests
 
 '''
 username = sys.argv[1]
@@ -82,4 +81,9 @@ auth_manager = spotipy.oauth2.SpotifyOAuth(scope='user-read-currently-playing',
 if not auth_manager.validate_token(cache_handler.get_cached_token()):
     auth_url = auth_manager.get_authorize_url()
     webbrowser.open(auth_url)
-    auth_manager.get
+    # auth_manager.get
+
+
+    x = requests.get(auth_url)
+    # print(json.dumps(x, sort_keys=True, indent=4))
+    print(x)

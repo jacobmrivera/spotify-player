@@ -86,4 +86,4 @@ if not auth_manager.validate_token(cache_handler.get_cached_token()):
 
     x = requests.get(auth_url)
     # print(json.dumps(x, sort_keys=True, indent=4))
-    print(x)
+    print(x.content)

@@ -20,6 +20,11 @@ import webbrowser
 import spotipy.util as util
 from json.decoder import JSONDecodeError
 # import requests
+import tkinter
+import app
+
+app.startApp()
+
 
 scope = 'user-read-private user-read-playback-state user-modify-playback-state'
 username = 'jakerivera32'
@@ -36,7 +41,7 @@ spotifyObject = spotipy.Spotify(auth=token)
 
 # https://open.spotify.com/user/jakerivera32?si=0b1824b4cf5c451a
 
-spotifyObject = spotipy.Spotify(auth=token)
+# spotifyObject = spotipy.Spotify(auth=token)
 
 devices = spotifyObject.devices()
 print(json.dumps(devices, sort_keys=True, indent=4))

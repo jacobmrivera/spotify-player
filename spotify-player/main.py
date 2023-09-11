@@ -8,7 +8,7 @@ from json.decoder import JSONDecodeError
 import requests
 import application
 
-RUN_APP = 1
+RUN_APP = 0
 
 DB = 1
 
@@ -45,12 +45,29 @@ def getCurrentlyPlaying(spotifyObj):
         print("Currently playing " + artist + " - " + trackName)
     else:
         print("Nothing is currently playing")
+    return track
+
+def getAlbumImage(spotO):
+
+    track = getCurrentlyPlaying(spotO)
+    albumURL = track['item']['album']['images'][0]['url']
+    response = requests.get(albumURL)
+
+    if response.status_code == 200:
+        with open("album.png", "wb") as f:
+            f.write(response.content)
+    else:
+        print("Failed to download the image")
+
+    return 0
+
+
 
 def main():
     spotifyObj = setUpSpotify()
     getCurrentDeviceInfo(spotifyObj=spotifyObj)
     getCurrentlyPlaying(spotifyObj)
-
+    # getAlbumImage(spotifyObj)
     if (RUN_APP):
         app = application.App()
         app.mainloop()

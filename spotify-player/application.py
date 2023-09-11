@@ -18,6 +18,9 @@ class App(customtkinter.CTk):
         print("button clicked")
 
 
+    
+
+
 
 def startApp():
 

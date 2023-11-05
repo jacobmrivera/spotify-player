@@ -1,41 +1,32 @@
-import tkinter
-import customtkinter
+import tkinter as tk
+from PIL import ImageTk, Image
 
+class App:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("My Tkinter App")
 
+        # Create and configure widgets
+        self.label = tk.Label(root, text="Hello, Tkinter!")
+        self.button = tk.Button(root, text="Click me", command=self.on_button_click)
+        self.albumArt = tk.Label(root)#, image=ImageTk.PhotoImage(Image.open("album.png"))
+        default_image = Image.open("album.png")
+        self.tk_default_image = ImageTk.PhotoImage(default_image)
+        self.albumArt = tk.Label(root, image=self.tk_default_image)#, image=ImageTk.PhotoImage(Image.open("album.png"))
 
-class App(customtkinter.CTk):
-    def __init__(self):
-        super().__init__()
-        self.geometry("400x150")
+        # Pack or grid the widgets
+        self.albumArt.pack()
+        self.label.pack()
+        self.button.pack()
+        # self.tk_default_image.pack()
 
-        self.button = customtkinter.CTkButton(self, text="my button", command=self.button_callbck)
-        self.button.pack(padx=20, pady=20)
+    def on_button_click(self):
+        # Define the behavior when the button is clicked
+        print("Button clicked!")
 
-        self.label = customtkinter.CTkLabel(self, text="THIS IS MY LABEL", fg_color="transparent")
-        self.label.pack(padx=20, pady=20)
-    
-    def button_callbck(self):
-        print("button clicked")
+    def load_album_img(self):
+        image = tk.PhotoImage(file="album.png")
 
-
-    
-
-
-
-def startApp():
-
-    # System Settings
-    customtkinter.set_appearance_mode("System")
-    customtkinter.set_default_color_theme("blue")
-
-    # Our app frame
-    app = customtkinter.CTk()
-    app.geometry("720x480")
-    app.title("Spotify Player")
-
-    # Adding UI Elements
-    title = customtkinter.CTkLabel(app, text="what song")
-    title.pack(padx=10, pady=10)
-
-    # Run app
-    app.mainloop()
+    def start(self):
+        # Start the main loop when you're ready
+        self.root.mainloop()

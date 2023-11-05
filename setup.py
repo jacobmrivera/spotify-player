@@ -1,6 +1,12 @@
 # setup.py
 from pathlib import Path
 from setuptools import find_namespace_packages, setup
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 # Load packages from requirements.txt
 BASE_DIR = Path(__file__).parent

@@ -7,9 +7,10 @@ import spotipy.util as util
 from json.decoder import JSONDecodeError
 import requests
 import application
+from dotenv import load_dotenv
+import tkinter as tk
 
-RUN_APP = 0
-
+RUN_APP = 1
 DB = 1
 
 
@@ -22,7 +23,7 @@ def setUpSpotify():
         token = util.prompt_for_user_token(username, scope)
     # except(AttributeError, JSONDecodeError):
     except:
-        os.remove(f".cache-{username}")
+        # os.remove(f".cache-{username}")
         token = util.prompt_for_user_token(username, scope)
 
     spotifyObject = spotipy.Spotify(auth=token)
@@ -64,13 +65,16 @@ def getAlbumImage(spotO):
 
 
 def main():
+    load_dotenv()
     spotifyObj = setUpSpotify()
     getCurrentDeviceInfo(spotifyObj=spotifyObj)
     getCurrentlyPlaying(spotifyObj)
-    # getAlbumImage(spotifyObj)
+    getAlbumImage(spotifyObj)
     if (RUN_APP):
-        app = application.App()
-        app.mainloop()
+        root = tk.Tk()
+        root.geometry("400x300")
+        app = application.App(root)
+        app.start()
 
 
 if __name__ == "__main__":

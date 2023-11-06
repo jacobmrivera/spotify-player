@@ -59,6 +59,8 @@ class App:
             if now_track_id != self.current_song:
                 self.current_song = now_track_id
                 print("song change!")
+                main.getAlbumImage(self.sp)
+                self.set_new_album_art()
                 self.root.after(1000, self.check_song_change)  # Schedule the function to run every second
 
                 return True

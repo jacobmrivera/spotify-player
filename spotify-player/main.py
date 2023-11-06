@@ -9,9 +9,19 @@ import requests
 import application
 from dotenv import load_dotenv
 import tkinter as tk
+import time
 
 RUN_APP = 1
 DB = 1
+
+APP_WIDTH = 400
+APP_HEIGHT = 400
+    # 0 = 640x640
+    # 1 = 300x300
+    # 2 = 64x64
+ALBUM_SIZE = 1
+
+RUN = True
 
 
 def setUpSpotify():
@@ -49,9 +59,12 @@ def getCurrentlyPlaying(spotifyObj):
     return track
 
 def getAlbumImage(spotO):
-
     track = getCurrentlyPlaying(spotO)
-    albumURL = track['item']['album']['images'][0]['url']
+
+    # 0 = 640x640
+    # 1 = 300x300
+    # 2 = 64x64
+    albumURL = track['item']['album']['images'][ALBUM_SIZE]['url']
     response = requests.get(albumURL)
 
     if response.status_code == 200:
@@ -62,20 +75,54 @@ def getAlbumImage(spotO):
 
     return 0
 
+def get_pixel_num_for_album():
+
+    if (ALBUM_SIZE == 0):
+        return 640
+    elif (ALBUM_SIZE == 1):
+        return 300
+    elif (ALBUM_SIZE == 2):
+        return 64
+    else:
+        raise Exception("ALBUM_SIZE not a valid number. Please set to 0 || 1 || 2\n")
+
+def detect_new_song(sp, previous):
+
+    current_track = sp.current_playback()
+
+    if current_track is not None:
+        # Get the current track's ID
+        current_track_id = current_track['item']['id']
+
+        if current_track_id != previous:
+            print("Song has changed to:", current_track['item']['name'])
+            # Do something when the song changes
+            return True
+        print("same song")
 
 
 def main():
     load_dotenv()
     spotifyObj = setUpSpotify()
-    getCurrentDeviceInfo(spotifyObj=spotifyObj)
+    getCurrentDeviceInfo(spotifyObj)
     getCurrentlyPlaying(spotifyObj)
     getAlbumImage(spotifyObj)
+
     if (RUN_APP):
         root = tk.Tk()
-        root.geometry("400x300")
-        app = application.App(root)
+        app = application.App(root, spotifyObj, ALBUM_SIZE)
         app.start()
+        # detect_new_song(spotifyObj)
+        RUN = True
 
+    current_track = spotifyObj.current_playback()
+    while (RUN):
+
+        if detect_new_song(spotifyObj, current_track):
+            getAlbumImage(spotifyObj)
+            app.set_new_album_art()
+
+        time.sleep(1)
 
 if __name__ == "__main__":
          main()
